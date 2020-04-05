@@ -12,6 +12,7 @@ module.exports = function () {
 
     consign({cwd: "api"})
         .include("estado/controller")
+        .then("estado/repository")
         .into(app);
 
     //body parser
