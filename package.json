@@ -1,0 +1,18 @@
+{
+  "name": "desafio-zoox-api",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "consign": "^0.1.6",
+    "custom-env": "^2.0.1",
+    "body-parser": "^1.19.0",
+    "pino": "^6.1.1",
+    "pino-pretty": "^4.0.0",
+    "express-pino-logger": "^4.0.0"
+  }
+}
