@@ -10,18 +10,16 @@ module.exports = function () {
 
     let app = express();
 
-    consign({cwd: "api"})
-        .include("estado/controller")
-        .then("estado/repository")
-        .into(app);
-
-    //body parser
+    //diz para o express utilizar o module body-parser, convertendo para json
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: true}));
 
     //logger
     app.use(pinoLogger.expressLogger);
     app.logger = pinoLogger.logger;
 
+    consign({cwd: "api"})
+        .include("estado/controller")
+        .then("estado/repository")
+        .into(app);
     return app;
 };
