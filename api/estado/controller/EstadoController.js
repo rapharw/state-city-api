@@ -64,27 +64,25 @@ module.exports = function (app) {
         let estadoRepository = app.estado.repository.EstadoRepository;
         let estado = req.body;
 
-        // estadoRepository.findById(req.params.idEstado)
-        //     .then(result => {
-        //         app.logger.info(`Estado: ${result}`);
-        //
-        //         estado.id = result.id;
-        //         estado.dataUltAlt = new Date();
-        //         estadoRepository.save(estado)
-        //             .then(result => {
-        //                 app.logger.info(`Estado editado com sucesso: ${result}`);
-        //                 res.json(result);
-        //             })
-        //             .catch(error => res.json(error));
-        //
-        //     })
-        //     .catch(error => res.json(error));
-
         estado.dataUltAlt = new Date();
         estadoRepository.edit(req.params.idEstado, estado)
                         .then(result => {
                             app.logger.info(`Estado: ${result}`);
                             res.json(result);
                         }).catch(error => res.json(error))
+    });
+
+    /**
+     * Excluo um Estado
+     */
+    app.delete(`${apiEstado}/:idEstado`, function(req, res) {
+        app.logger.info("Excluindo estado");
+
+        let estadoRepository = app.estado.repository.EstadoRepository;
+        estadoRepository.delete(req.params.idEstado)
+            .then(() => {
+                app.logger.info(`Estado: ${req.params.idEstado}`);
+                res.json(req.params.idEstado);
+            }).catch(error => res.json(error))
     });
 }

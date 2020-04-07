@@ -77,6 +77,18 @@ class EstadoRepository extends MongoConnection {
             });
         });
     }
+
+
+    delete(id){
+        return new Promise(function(resolve, reject){
+            Estado.deleteOne({ "_id": id }, function (err) {
+                if (err)
+                    reject(new Error("Erro ao excluir um estado"));
+                else
+                    resolve()
+            });
+        });
+    }
 }
 
 module.exports = () => new EstadoRepository();
