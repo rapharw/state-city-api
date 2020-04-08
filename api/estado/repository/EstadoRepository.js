@@ -52,11 +52,9 @@ class EstadoRepository extends MongoConnection {
             const estado = new Estado(objEstadoSalva);
             estado.save()
                 .then(result => {
-                        console.log(result)
                         resolve(result);
                     }
                     ,error => {
-                        console.log(error)
                         if(error.code === 11000){
                             reject(new Error("Estado já existe"))
                         }

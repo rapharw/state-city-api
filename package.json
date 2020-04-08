@@ -15,6 +15,9 @@
     "pino-pretty": "^4.0.0",
     "express-pino-logger": "^4.0.0",
     "mongoose": "^5.9.7",
-    "express-validator": "^6.4.0"
+    "express-validator": "^6.4.0",
+    "helmet": "^3.22.0",
+    "helmet-csp": "^2.10.0",
+    "cors": "^2.8.5"
   }
 }

@@ -7,7 +7,7 @@ module.exports = function (app) {
     /**
      * Lista os Estados
      */
-    app.get(`${apiEstado}/`, function (req, res) {
+    app.get(`${apiEstado}/`, app.validaApiKey, function (req, res) {
         app.logger.info("Listando estados");
         let estadoRepository = app.estado.repository.EstadoRepository;
 
@@ -23,7 +23,7 @@ module.exports = function (app) {
     /**
      * Busca um Estado pelo ID
      */
-    app.get(`${apiEstado}/:idEstado`, function (req, res) {
+    app.get(`${apiEstado}/:idEstado`,  app.validaApiKey, function (req, res) {
         app.logger.info("Buscando estado");
         let estadoRepository = app.estado.repository.EstadoRepository;
 
@@ -39,7 +39,7 @@ module.exports = function (app) {
     /**
      * Cadastra um Estado
      */
-    app.post(`${apiEstado}`, EstadoValidation ,function(req, res){
+    app.post(`${apiEstado}`, EstadoValidation , app.validaApiKey, function(req, res){
 
         app.expressValidator.sendValidationResult(req, res);
 
@@ -63,7 +63,7 @@ module.exports = function (app) {
     /**
      * Edita um Estado
      */
-    app.put(`${apiEstado}/:idEstado`, EstadoValidation, function(req, res) {
+    app.put(`${apiEstado}/:idEstado`, EstadoValidation, app.validaApiKey, function(req, res) {
 
         app.expressValidator.sendValidationResult(req, res);
 
@@ -83,7 +83,7 @@ module.exports = function (app) {
     /**
      * Exclui um Estado
      */
-    app.delete(`${apiEstado}/:idEstado`, function(req, res) {
+    app.delete(`${apiEstado}/:idEstado`, app.validaApiKey, function(req, res) {
 
         app.logger.info("Excluindo estado");
 
