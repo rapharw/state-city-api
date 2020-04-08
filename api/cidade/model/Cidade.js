@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const {check} = require("express-validator");
 
-const estado = new mongoose.Schema({
+const cidade = new mongoose.Schema({
     nome: {
         type: String,
         required: [true, "Atributo 'Nome' é obrigatório!"],
         unique: true,
         dropDups: true
     },
-    abreviacao: {
-        type: String,
-        required: [true, "Atributo 'Abreviação' é obrigatório!"],
-        unique: true
+    estadoId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Estados",
+        required: [true, "Atributo 'Estado' é obrigatório!"]
     },
     dataCriacao: {
         type: Date,
@@ -22,16 +22,16 @@ const estado = new mongoose.Schema({
         require: false
     }
 });
+
 module.exports = {
-    model: mongoose.model("Estados", estado),
-    schema: estado,
+    model: mongoose.model("Cidades", cidade),
+    schema: cidade,
     validation: [
         check("nome")
             .not().isEmpty().withMessage("Nome não pode ser vazio")
             .isLength({min: 5}).withMessage("Nome deve ter no mínimo 5 caracteres"),
 
-        check("abreviacao")
-            .not().isEmpty().withMessage("Abreviação não pode ser vazia")
-            .isLength({min: 2, max: 2}).withMessage("Abreviação deve ter 2 caracteres")
+        check("estadoId")
+            .not().isEmpty().withMessage("Estado não pode ser vazio")
     ]
 };

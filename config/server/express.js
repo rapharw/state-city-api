@@ -24,7 +24,7 @@ function validaApiKey(req, res, next) {
         return;
     }
 
-    if(process.env.SECRET !== token){
+    if (process.env.SECRET !== token) {
         res.status(500).json({auth: false, message: "Token inválido."});
         return;
     }
@@ -57,6 +57,8 @@ module.exports = function () {
     consign({cwd: "api"})
         .include("estado/controller")
         .then("estado/repository")
+        .then("cidade/controller")
+        .then("cidade/repository")
         .then("../config/security")
         .into(app);
     return app;
