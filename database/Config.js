@@ -1,7 +1,7 @@
 const config = {
-    db_user: process.env.MONGO_USER,
-    db_password: process.env.MONGO_PASS,
-    db_host: process.env.MONGO_HOST,
-    db_name: process.env.MONGO_NAME
+    db_user: "zooxuser",
+    db_password: "zooxpass12321",
+    db_host: "ds049598.mlab.com:49598",
+    db_name: "desafio-zoox"
 };
 module.exports = config;
