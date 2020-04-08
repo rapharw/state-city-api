@@ -2,8 +2,9 @@
   "name": "desafio-zoox-api",
   "version": "1.0.0",
   "private": false,
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "^4.17.1",

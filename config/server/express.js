@@ -5,8 +5,8 @@ const pinoLogger = require("../log/pino")();
 const {validationResult} = require("express-validator");
 const cors = require("cors");
 const {handleError, ErrorHandler} = require("../error/Error");
-
 require("custom-env").env(process.env.NODE_ENV);
+
 
 /**
  * Retorna critica com as validacoes dos Modelos (ex: Estado, Cidade)
@@ -22,6 +22,7 @@ function sendValidationResult(req, res){
     }
 }
 
+
 /**
  * Verifica existencia de token x-api-key
  * @param req
@@ -30,21 +31,18 @@ function sendValidationResult(req, res){
  */
 function validaApiKey(req, res, next) {
     "use strict";
-
     let token = req.headers["x-api-key"];
     if (!token) {
         res.status(401).json({auth: false, message: "Token não informado."});
         return;
     }
-
     if (process.env.SECRET !== token) {
         res.status(500).json({auth: false, message: "Token inválido."});
         return;
     }
-
     next();
-
 }
+
 
 module.exports = function () {
     "use strict";
