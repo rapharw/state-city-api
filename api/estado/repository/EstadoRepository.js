@@ -21,7 +21,7 @@ class EstadoRepository extends MongoConnection {
                     resolve(result)
                 })
                 .catch(error => {
-                    reject(new Error("Lista de estados não encontrada"))
+                    reject({msg: "Erro ao buscar lista de estados", error: error})
                 });
 
         })
@@ -40,7 +40,7 @@ class EstadoRepository extends MongoConnection {
                         resolve(result[0])
                 })
                 .catch(error => {
-                    reject(new Error("Estado não encontrado"))
+                    reject({msg: "Estado não encontrado", error: error})
                 });
 
         })
@@ -56,10 +56,10 @@ class EstadoRepository extends MongoConnection {
                     }
                     ,error => {
                         if(error.code === 11000){
-                            reject(new Error("Estado já existe"))
+                            reject({msg: "Estado já existe", error: error})
                         }
                         else
-                            reject(new Error("Erro inesperado ao salvar um estado"));
+                            reject({msg: "Erro ao salvar estado", error: error})
                     });
         });
     }
@@ -68,7 +68,7 @@ class EstadoRepository extends MongoConnection {
         return new Promise(function(resolve, reject){
             Estado.findOneAndUpdate({ "_id": id }, { "$set": objEstadoEdita}).exec(function(err, estado){
                 if(err) {
-                    reject(new Error("Erro inesperado ao editar um estado"));
+                    reject({msg: "Erro ao editar estado", error: err})
                 } else {
                     resolve(estado);
                 }
@@ -81,7 +81,7 @@ class EstadoRepository extends MongoConnection {
         return new Promise(function(resolve, reject){
             Estado.deleteOne({ "_id": id }, function (err) {
                 if (err)
-                    reject(new Error("Erro ao excluir um estado"));
+                    reject({msg: "Erro ao excluir estado", error: err})
                 else
                     resolve()
             });

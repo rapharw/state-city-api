@@ -4,9 +4,16 @@ const bodyParser = require("body-parser");
 const pinoLogger = require("../log/pino")();
 const {validationResult} = require("express-validator");
 const cors = require("cors");
+const {handleError, ErrorHandler} = require("../error/Error");
 
 require("custom-env").env(process.env.NODE_ENV);
 
+/**
+ * Retorna critica com as validacoes dos Modelos (ex: Estado, Cidade)
+ * @param req
+ * @param res
+ * @returns {*|Promise<any>}
+ */
 function sendValidationResult(req, res){
     "use strict";
     const errors = validationResult(req);
@@ -15,6 +22,12 @@ function sendValidationResult(req, res){
     }
 }
 
+/**
+ * Verifica existencia de token x-api-key
+ * @param req
+ * @param res
+ * @param next
+ */
 function validaApiKey(req, res, next) {
     "use strict";
 
@@ -53,6 +66,11 @@ module.exports = function () {
     };
 
     app.validaApiKey = validaApiKey;
+
+    app.errorHandler = {
+        handleError: handleError,
+        ErrorHandler: ErrorHandler
+    };
 
     consign({cwd: "api"})
         .include("estado/controller")

@@ -1,7 +1,6 @@
 const MongoConnection = require("../../../database/MongoConnection");
 
 const Cidade = require("../model/Cidade").model;
-const Estado = require("../../estado/model/Estado").model;
 
 class CidadeRepository extends MongoConnection {
 
@@ -22,7 +21,7 @@ class CidadeRepository extends MongoConnection {
                 .populate("estadoId")
                 .exec(function(error, posts) {
                     if(error){
-                        reject(new Error("Lista de cidades não encontrada"));
+                        reject({msg: "Erro ao buscar lista de cidades", error: error});
                     }
                     resolve(posts);
                 });
@@ -39,7 +38,7 @@ class CidadeRepository extends MongoConnection {
                 .populate("estadoId")
                 .exec(function(error, posts) {
                     if(error){
-                        reject(new Error("Cidades não encontrada"));
+                        reject({msg: "Cidade não encontrada", error: error});
                     }
                     resolve(posts);
                 });
@@ -57,10 +56,10 @@ class CidadeRepository extends MongoConnection {
                     }
                     ,error => {
                         if(error.code === 11000){
-                            reject(new Error("Cidade já existe"))
+                            reject({msg: "Cidade já existe", error: error})
                         }
                         else
-                            reject(new Error("Erro inesperado ao salvar uma cidade"));
+                            reject({msg: "Erro ao salvar cidade", error: error})
                     });
         });
     }
@@ -69,7 +68,7 @@ class CidadeRepository extends MongoConnection {
         return new Promise(function(resolve, reject){
             Cidade.findOneAndUpdate({ "_id": id }, { "$set": objEdita}).exec(function(err, cidade){
                 if(err) {
-                    reject(new Error("Erro inesperado ao editar uma cidade"));
+                    reject({msg: "Erro ao editar cidade", error: err})
                 } else {
                     resolve(cidade);
                 }
@@ -82,7 +81,7 @@ class CidadeRepository extends MongoConnection {
         return new Promise(function(resolve, reject){
             Cidade.deleteOne({ "_id": id }, function (err) {
                 if (err)
-                    reject(new Error("Erro ao excluir uma cidade"));
+                    reject({msg: "Erro ao excluir cidade", error: err})
                 else
                     resolve()
             });
