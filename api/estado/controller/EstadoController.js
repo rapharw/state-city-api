@@ -1,6 +1,8 @@
+const EstadoValidation = require("../model/Estado").validation;
+const apiEstado = process.env.APP_API_ESTADO;
+
 module.exports = function (app) {
     "use strict";
-    let apiEstado = process.env.APP_API_ESTADO;
 
     /**
      * Lista os Estados
@@ -37,7 +39,10 @@ module.exports = function (app) {
     /**
      * Cadastra um Estado
      */
-    app.post(`${apiEstado}`, function(req, res){
+    app.post(`${apiEstado}`, EstadoValidation ,function(req, res){
+
+        app.expressValidator.sendValidationResult(req, res);
+
         app.logger.info("Cadastrando estado");
 
         let estado = req.body;
@@ -58,7 +63,10 @@ module.exports = function (app) {
     /**
      * Edita um Estado
      */
-    app.put(`${apiEstado}/:idEstado`, function(req, res) {
+    app.put(`${apiEstado}/:idEstado`, EstadoValidation, function(req, res) {
+
+        app.expressValidator.sendValidationResult(req, res);
+
         app.logger.info("Editando estado");
 
         let estadoRepository = app.estado.repository.EstadoRepository;
@@ -73,9 +81,10 @@ module.exports = function (app) {
     });
 
     /**
-     * Excluo um Estado
+     * Exclui um Estado
      */
     app.delete(`${apiEstado}/:idEstado`, function(req, res) {
+
         app.logger.info("Excluindo estado");
 
         let estadoRepository = app.estado.repository.EstadoRepository;

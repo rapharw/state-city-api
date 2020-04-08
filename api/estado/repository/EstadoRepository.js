@@ -1,6 +1,6 @@
 const MongoConnection = require("../../../database/MongoConnection");
 
-const Estado = require("../model/Estado");
+const Estado = require("../model/Estado").model;
 
 class EstadoRepository extends MongoConnection {
 
