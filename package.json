@@ -1,0 +1,24 @@
+{
+  "name": "state-city-api",
+  "version": "1.0.0",
+  "private": false,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "custom-env": "^2.0.1",
+    "express": "^4.17.1",
+    "express-pino-logger": "^4.0.0",
+    "express-validator": "^6.4.0",
+    "helmet": "^3.22.0",
+    "helmet-csp": "^2.10.0",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
+    "pino": "^6.1.1",
+    "pino-pretty": "^4.0.0"
+  }
+}
