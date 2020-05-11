@@ -1,7 +1,7 @@
-# Desafio-Zoox-Api
+# State-City-Api
 
-Projeto CRUD para as entidades Estado e Cidade e seus relacionamentos, utilizando MongoDB.
+CRUD Project with State and City information, using MongoDB.
 
 
-### Postman do Projeto ###
+### Postman Request ###
 https://www.getpostman.com/collections/7ecf56abeaeeb4258d73
