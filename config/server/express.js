@@ -9,35 +9,36 @@ require("custom-env").env(process.env.NODE_ENV);
 
 
 /**
- * Retorna critica com as validacoes dos Modelos (ex: Estado, Cidade)
+ * Return Express-Validator
  * @param req
  * @param res
  * @returns {*|Promise<any>}
  */
-function sendValidationResult(req, res){
+function sendValidationResult(req, res) {
     "use strict";
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});
     }
+    return null;
 }
 
 
 /**
- * Verifica existencia de token x-api-key
+ * Verify Header x-api-key
  * @param req
  * @param res
  * @param next
  */
-function validaApiKey(req, res, next) {
+function validateApiKey(req, res, next) {
     "use strict";
     let token = req.headers["x-api-key"];
     if (!token) {
-        res.status(401).json({auth: false, message: "Token não informado."});
+        res.status(401).json({auth: false, message: "Token is empty"});
         return;
     }
     if (process.env.SECRET !== token) {
-        res.status(500).json({auth: false, message: "Token inválido."});
+        res.status(500).json({auth: false, message: "Token is invalid"});
         return;
     }
     next();
@@ -49,7 +50,7 @@ module.exports = function () {
 
     let app = express();
 
-    //diz para o express utilizar o module body-parser, convertendo para json
+    //tells express to use module body-parser, converting to json
     app.use(bodyParser.json());
 
     app.use(cors());
@@ -58,12 +59,12 @@ module.exports = function () {
     app.use(pinoLogger.expressLogger);
     app.logger = pinoLogger.logger;
 
-    //Validar json input
+    //Validate json input
     app.expressValidator = {
         sendValidationResult: sendValidationResult
     };
 
-    app.validaApiKey = validaApiKey;
+    app.validateApiKey = validateApiKey;
 
     app.errorHandler = {
         handleError: handleError,
@@ -71,10 +72,10 @@ module.exports = function () {
     };
 
     consign({cwd: "api"})
-        .include("estado/controller")
-        .then("estado/repository")
-        .then("cidade/controller")
-        .then("cidade/repository")
+        .include("state/controller")
+        .then("state/repository")
+        .then("city/controller")
+        .then("city/repository")
         .then("../config/security")
         .into(app);
     return app;

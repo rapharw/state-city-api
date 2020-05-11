@@ -1,27 +1,22 @@
 const MongoConnection = require("../../../database/MongoConnection");
 
-const Estado = require("../model/Estado").model;
+const State = require("../model/State").model;
 
-class EstadoRepository extends MongoConnection {
+class StateRepository extends MongoConnection {
 
     constructor(){
         super()
     }
 
-    /**
-     * Busca a lista de estados
-     * @returns {Promise<unknown>}
-     */
+
     findAll(){
 
         return new Promise(function(resolve, reject){
 
-            Estado.find()
-                .then(result => {
-                    resolve(result)
-                })
+            State.find()
+                .then(result => resolve(result))
                 .catch(error => {
-                    reject({msg: "Erro ao buscar lista de estados", error: error})
+                    reject({msg: "Error on get List of States", error: error})
                 });
 
         })
@@ -32,7 +27,7 @@ class EstadoRepository extends MongoConnection {
 
         return new Promise(function(resolve, reject){
 
-            Estado.find({_id:id})
+            State.find({_id:id})
                 .then(result => {
                     if(result.length === 0)
                         resolve({result});
@@ -40,37 +35,44 @@ class EstadoRepository extends MongoConnection {
                         resolve(result[0])
                 })
                 .catch(error => {
-                    reject({msg: "Estado não encontrado", error: error})
+                    reject({msg: "State not found", error: error})
                 });
 
         })
     }
 
-    save(objEstadoSalva){
+
+    save(toSave){
         return new Promise(function(resolve, reject){
 
-            const estado = new Estado(objEstadoSalva);
-            estado.save()
+            toSave.dateCreated = new Date();
+            toSave.dateLastUpdated = new Date();
+
+            const state = new State(toSave);
+            state.save()
                 .then(result => {
                         resolve(result);
                     }
                     ,error => {
                         if(error.code === 11000){
-                            reject({msg: "Estado já existe", error: error})
+                            reject({msg: "State is already exist", error: error})
                         }
                         else
-                            reject({msg: "Erro ao salvar estado", error: error})
+                            reject({msg: "Error on save State", error: error})
                     });
         });
     }
 
-    edit(id, objEstadoEdita){
+
+    edit(id, toEdit){
         return new Promise(function(resolve, reject){
-            Estado.findOneAndUpdate({ "_id": id }, { "$set": objEstadoEdita}).exec(function(err, estado){
+
+            toEdit.dateLastUpdated = new Date();
+            State.findOneAndUpdate({ "_id": id }, { "$set": toEdit}).exec(function(err, state){
                 if(err) {
-                    reject({msg: "Erro ao editar estado", error: err})
+                    reject({msg: "Error on edit State", error: err})
                 } else {
-                    resolve(estado);
+                    resolve(state);
                 }
             });
         });
@@ -79,9 +81,9 @@ class EstadoRepository extends MongoConnection {
 
     delete(id){
         return new Promise(function(resolve, reject){
-            Estado.deleteOne({ "_id": id }, function (err) {
+            State.deleteOne({ "_id": id }, function (err) {
                 if (err)
-                    reject({msg: "Erro ao excluir estado", error: err})
+                    reject({msg: "Error on delete State", error: err})
                 else
                     resolve()
             });
@@ -89,4 +91,4 @@ class EstadoRepository extends MongoConnection {
     }
 }
 
-module.exports = () => new EstadoRepository();
+module.exports = () => new StateRepository();

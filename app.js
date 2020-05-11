@@ -7,9 +7,10 @@ app.use((err, req, res, next) => {
 
 app.listen(process.env.APP_PORT, function () {
     "use strict";
-    app.logger.info(`Servidor escutando na porta ${process.env.APP_PORT}`);
+    app.logger.info(`Server listening on port ${process.env.APP_PORT}`);
 
-    app.logger.info(`API URL: ${process.env.APP_API_ESTADO}`);
+    app.logger.info(`API URL: ${process.env.APP_API_STATE}`);
+    app.logger.info(`API URL: ${process.env.APP_API_CITY}`);
 
     app.logger.info(`mongodb://${conn.db_user}:${conn.db_password}@${conn.db_host}/${conn.db_name}`);
 });

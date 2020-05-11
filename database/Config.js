@@ -1,7 +1,7 @@
 const config = {
-    db_user: "zooxuser",
-    db_password: "zooxpass12321",
-    db_host: "ds049598.mlab.com:49598",
-    db_name: "desafio-zoox"
+    db_user: "scdbuser",
+    db_password: "scdbpass12321",
+    db_host: "ds013848.mlab.com:13848",
+    db_name: "state-city-db"
 };
 module.exports = config;

@@ -1,27 +1,24 @@
 const MongoConnection = require("../../../database/MongoConnection");
 
-const Cidade = require("../model/Cidade").model;
+const City = require("../model/City").model;
 
-class CidadeRepository extends MongoConnection {
+class CityRepository extends MongoConnection {
 
     constructor(){
         super()
     }
 
-    /**
-     * Busca a lista de cidades
-     * @returns {Promise<unknown>}
-     */
+
     findAll(){
 
         return new Promise(function(resolve, reject){
 
 
-            Cidade.find({})
-                .populate("estadoId")
+            City.find({})
+                .populate("stateId")
                 .exec(function(error, posts) {
                     if(error){
-                        reject({msg: "Erro ao buscar lista de cidades", error: error});
+                        reject({msg: "Error on get List of Cities", error: error});
                     }
                     resolve(posts);
                 });
@@ -34,11 +31,11 @@ class CidadeRepository extends MongoConnection {
 
         return new Promise(function(resolve, reject){
 
-            Cidade.findOne({_id: id})
-                .populate("estadoId")
+            City.findOne({_id: id})
+                .populate("stateId")
                 .exec(function(error, posts) {
                     if(error){
-                        reject({msg: "Cidade não encontrada", error: error});
+                        reject({msg: "City not found", error: error});
                     }
                     resolve(posts);
                 });
@@ -46,31 +43,37 @@ class CidadeRepository extends MongoConnection {
         })
     }
 
-    save(objSalva){
+    save(toSave){
         return new Promise(function(resolve, reject){
 
-            const cidade = new Cidade(objSalva);
-            cidade.save()
+            toSave.dateCreated = new Date();
+            toSave.dateLastUpdated = new Date();
+            const city = new City(toSave);
+
+            city.save()
                 .then(result => {
                         resolve(result);
                     }
                     ,error => {
                         if(error.code === 11000){
-                            reject({msg: "Cidade já existe", error: error})
+                            reject({msg: "City is already exist", error: error})
                         }
                         else
-                            reject({msg: "Erro ao salvar cidade", error: error})
+                            reject({msg: "Error on save City", error: error})
                     });
         });
     }
 
-    edit(id, objEdita){
+    edit(id, toEdit){
         return new Promise(function(resolve, reject){
-            Cidade.findOneAndUpdate({ "_id": id }, { "$set": objEdita}).exec(function(err, cidade){
+
+            toEdit.dateLastUpdated = new Date();
+
+            City.findOneAndUpdate({ "_id": id }, { "$set": toEdit}).exec(function(err, city){
                 if(err) {
-                    reject({msg: "Erro ao editar cidade", error: err})
+                    reject({msg: "Error on edit city", error: err})
                 } else {
-                    resolve(cidade);
+                    resolve(city);
                 }
             });
         });
@@ -79,9 +82,9 @@ class CidadeRepository extends MongoConnection {
 
     delete(id){
         return new Promise(function(resolve, reject){
-            Cidade.deleteOne({ "_id": id }, function (err) {
+            City.deleteOne({ "_id": id }, function (err) {
                 if (err)
-                    reject({msg: "Erro ao excluir cidade", error: err})
+                    reject({msg: "Error on delete city", error: err})
                 else
                     resolve()
             });
@@ -89,4 +92,4 @@ class CidadeRepository extends MongoConnection {
     }
 }
 
-module.exports = () => new CidadeRepository();
+module.exports = () => new CityRepository();
