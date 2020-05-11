@@ -33,3 +33,7 @@ On the file ***database/Config.js***, use your database config. In this project,
 https://www.getpostman.com/collections/7ecf56abeaeeb4258d73
 
 
+## Testing
+You can use http://localhost:5000/ for testing local, or https://state-city-api.herokuapp.com/ to test deployed URL
+
+
