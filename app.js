@@ -14,3 +14,8 @@ app.listen(process.env.PORT || 5000, function () {
 
     app.logger.info(`mongodb://${conn.db_user}:${conn.db_password}@${conn.db_host}/${conn.db_name}`);
 });
+
+app.get("/", function(req, res) {
+    "use strict";
+    res.json("APP IS STARTED");
+});
