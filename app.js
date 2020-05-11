@@ -5,9 +5,9 @@ app.use((err, req, res, next) => {
     app.errorHandler.handleError(err, res);
 });
 
-app.listen(process.env.APP_PORT, function () {
+app.listen(process.env.PORT || 5000, function () {
     "use strict";
-    app.logger.info(`Server listening on port ${process.env.APP_PORT}`);
+    app.logger.info(`Server listening on port ${process.env.PORT || 5000}`);
 
     app.logger.info(`API URL: ${process.env.APP_API_STATE}`);
     app.logger.info(`API URL: ${process.env.APP_API_CITY}`);
