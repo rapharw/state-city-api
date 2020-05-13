@@ -5,8 +5,6 @@ module.exports = function (app) {
     "use strict";
 
     app.use(helmet());
-    app.use(helmet.frameguard());
-
     //script-src 'self' 'unsafe-inline
     app.use(csp({
         directives: {

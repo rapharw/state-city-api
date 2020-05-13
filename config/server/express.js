@@ -5,6 +5,8 @@ const pinoLogger = require("../log/pino")();
 const {validationResult} = require("express-validator");
 const cors = require("cors");
 const {handleError, ErrorHandler} = require("../error/Error");
+const expressStatusMonitor = require("express-status-monitor");
+
 require("custom-env").env(process.env.NODE_ENV);
 
 
@@ -44,7 +46,6 @@ function validateApiKey(req, res, next) {
     next();
 }
 
-
 module.exports = function () {
     "use strict";
 
@@ -53,11 +54,15 @@ module.exports = function () {
     //tells express to use module body-parser, converting to json
     app.use(bodyParser.json());
 
+    //cors
     app.use(cors());
 
     //logger
     app.use(pinoLogger.expressLogger);
     app.logger = pinoLogger.logger;
+
+    //express-status-monitor
+    app.use(expressStatusMonitor());
 
     //Validate json input
     app.expressValidator = {

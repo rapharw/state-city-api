@@ -20,6 +20,8 @@ Express
 
 Express-Validator
 
+Express-Status-Monitor
+
 MongoDB (with Mongoose)
 
 Helmet (security)
@@ -37,3 +39,13 @@ https://www.getpostman.com/collections/7ecf56abeaeeb4258d73
 You can use http://localhost:5000/ for testing local, or https://state-city-api.herokuapp.com/ to test deployed URL
 
 
+## Endpoints
+
+API State
+${URL_DOMAIN}/state
+
+API City
+${URL_DOMAIN}/city
+
+Monitoring Health Check
+${URL_DOMAIN}/status
