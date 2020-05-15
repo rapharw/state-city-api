@@ -42,10 +42,10 @@ You can use http://localhost:5000/ for testing local, or https://state-city-api.
 ## Endpoints
 
 API State
-${URL_DOMAIN}/state
+${URL_DOMAIN}/states
 
 API City
-${URL_DOMAIN}/city
+${URL_DOMAIN}/cities
 
 Monitoring Health Check
 ${URL_DOMAIN}/status

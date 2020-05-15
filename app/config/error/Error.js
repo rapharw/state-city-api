@@ -6,9 +6,12 @@ class ErrorHandler extends Error {
     }
 }
 const handleError = (err, res) => {
-    console.log(err);
     const { statusCode, message } = err;
-    res.status(statusCode).json({status: "error",statusCode,message});
+    let statusCodeAux = statusCode;
+    if(!statusCodeAux){
+        statusCodeAux = 500;
+    }
+    res.status(statusCodeAux).json({status: "error", statusCodeAux, message});
 };
 module.exports = {
     ErrorHandler,

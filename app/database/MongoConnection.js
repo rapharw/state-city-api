@@ -1,5 +1,5 @@
 const poolSize = "?poolSize=4";
-const conn = require("../database/Config");
+const conn = require("./Config");
 
 class MongoConnection {
 

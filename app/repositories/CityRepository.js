@@ -1,15 +1,13 @@
-const MongoConnection = require("../../../database/MongoConnection");
+const MongoConnection = require("../database/MongoConnection");
+const City = require("../models/City").model;
 
-const City = require("../model/City").model;
-
-class CityRepository extends MongoConnection {
+class CityRepository extends MongoConnection{
 
     constructor(){
-        super()
+        super();
     }
 
-
-    findAll(){
+    async findAll(){
 
         return new Promise(function(resolve, reject){
 
@@ -27,7 +25,7 @@ class CityRepository extends MongoConnection {
     }
 
 
-    findById(id){
+    async findById(id){
 
         return new Promise(function(resolve, reject){
 
@@ -43,7 +41,7 @@ class CityRepository extends MongoConnection {
         })
     }
 
-    save(toSave){
+    async save(toSave){
         return new Promise(function(resolve, reject){
 
             toSave.dateCreated = new Date();
@@ -64,7 +62,7 @@ class CityRepository extends MongoConnection {
         });
     }
 
-    edit(id, toEdit){
+    async edit(id, toEdit){
         return new Promise(function(resolve, reject){
 
             toEdit.dateLastUpdated = new Date();
@@ -80,7 +78,7 @@ class CityRepository extends MongoConnection {
     }
 
 
-    delete(id){
+    async delete(id){
         return new Promise(function(resolve, reject){
             City.deleteOne({ "_id": id }, function (err) {
                 if (err)
@@ -92,4 +90,4 @@ class CityRepository extends MongoConnection {
     }
 }
 
-module.exports = () => new CityRepository();
+module.exports = () => CityRepository;
