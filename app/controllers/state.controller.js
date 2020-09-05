@@ -1,10 +1,10 @@
 class StateController {
 
-    constructor(app){
+    constructor(app) {
         this._app = app;
     }
 
-    findAll () {
+    findAll() {
         return new Promise((resolve, reject) => {
             this._app.stateRepo
                 .findAll()
@@ -19,7 +19,7 @@ class StateController {
         });
     };
 
-    findById (id) {
+    findById(id) {
         return new Promise((resolve, reject) => {
             this._app.stateRepo
                 .findById(id)
@@ -34,7 +34,22 @@ class StateController {
         });
     };
 
-    save (state) {
+    findByShortname(shortname) {
+        return new Promise((resolve, reject) => {
+            this._app.stateRepo
+                .findByShortname(shortname)
+                .then(result => {
+                    this._app.logger.info(`State founded by shortname: ${result}`);
+                    resolve(result);
+                })
+                .catch(error => {
+                    this._app.logger.error(error);
+                    reject(new Error(error.msg));
+                });
+        });
+    };
+
+    save(state) {
         return new Promise((resolve, reject) => {
             this._app.stateRepo
                 .save(state)
@@ -49,7 +64,7 @@ class StateController {
         });
     };
 
-    edit(id, state){
+    edit(id, state) {
         return new Promise((resolve, reject) => {
             this._app.stateRepo.edit(id, state)
                 .then(result => {
@@ -63,7 +78,7 @@ class StateController {
         });
     };
 
-    delete(id){
+    delete(id) {
         return new Promise((resolve, reject) => {
             this._app.stateRepo.delete(id)
                 .then(() => {
@@ -73,7 +88,7 @@ class StateController {
                 .catch(error => {
                     this._app.logger.error(error);
                     reject(new Error(error.msg));
-            });
+                });
         });
     };
 }
