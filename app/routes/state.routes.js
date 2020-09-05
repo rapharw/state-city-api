@@ -7,7 +7,7 @@ module.exports = function (app) {
     /**
      * Return a List of States
      */
-    app.get(`${apiState}`, app.validateApiKey, async function(_,res, next){
+    app.get(`${apiState}`, app.validateApiKey, async function (_, res, next) {
         try {
             await new stateController(app).findAll().then(result => res.json(result));
         } catch (e) {
@@ -18,30 +18,31 @@ module.exports = function (app) {
 
 
     /**
-     * Get a State by ID
+     * Get a State by ID or Shortname
      */
-    app.get(`${apiState}/:idState`,  app.validateApiKey, async function (req, res, next) {
-        try{
-            await new stateController(app).findById(req.params.idState).then(result => res.json(result));
-        }
-        catch (e) {
-            app.logger.error(`Error on get a state by ID [${req.method} ${apiState}/${req.params.idState}] ${e}`);
+    app.get(`${apiState}/:state`, app.validateApiKey, async function (req, res, next) {
+        try {
+            if (req.params.state.length === 2) {
+                await new stateController(app).findByShortname(req.params.state).then(result => res.json(result));
+            } else {
+                await new stateController(app).findById(req.params.state).then(result => res.json(result));
+            }
+        } catch (e) {
+            app.logger.error(`Error on get a state by ID [${req.method} ${apiState}/${req.params.state}] ${e}`);
             next(new app.errorHandler.ErrorHandler(500, `Internal error | ${e}`));
         }
     });
 
 
-
     /**
      * Save a State
      */
-    app.post(`${apiState}`, StateValidation , [app.validateApiKey, app.expressValidator.sendValidationResult], async function(req, res, next){
+    app.post(`${apiState}`, StateValidation, [app.validateApiKey, app.expressValidator.sendValidationResult], async function (req, res, next) {
 
-        try{
+        try {
             let state = req.body;
             await new stateController(app).save(state).then(result => res.json(result));
-        }
-        catch (e) {
+        } catch (e) {
             app.logger.error(`Error on save State [${req.method} ${apiState}] ${e}`);
             next(new app.errorHandler.ErrorHandler(500, `Internal error | ${e}`));
         }
@@ -51,13 +52,12 @@ module.exports = function (app) {
     /**
      * Edit a State
      */
-    app.put(`${apiState}/:idState`, StateValidation, [app.validateApiKey, app.expressValidator.sendValidationResult], async function(req, res, next) {
+    app.put(`${apiState}/:idState`, StateValidation, [app.validateApiKey, app.expressValidator.sendValidationResult], async function (req, res, next) {
 
-        try{
+        try {
             let state = req.body;
             await new stateController(app).edit(req.params.idState, state).then(result => res.json(result));
-        }
-        catch (e) {
+        } catch (e) {
             app.logger.error(`Error on edit a State [${req.method} ${apiState}/${req.params.idState}] ${e}`);
             next(new app.errorHandler.ErrorHandler(500, `Internal error | ${e}`));
         }
@@ -67,12 +67,11 @@ module.exports = function (app) {
     /**
      * Delete a State
      */
-    app.delete(`${apiState}/:idState`, app.validateApiKey, async function(req, res, next) {
+    app.delete(`${apiState}/:idState`, app.validateApiKey, async function (req, res, next) {
 
-        try{
+        try {
             await new stateController(app).delete(req.params.idState).then(() => res.json(req.params.idState));
-        }
-        catch (e) {
+        } catch (e) {
             app.logger.error(`Error on delete a State [${req.method} ${apiState}/${req.params.idState}] ${e}`);
             next(new app.errorHandler.ErrorHandler(500, `Internal error | ${e}`));
         }
